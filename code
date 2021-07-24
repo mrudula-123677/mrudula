@@ -1,0 +1,41 @@
+#include<LiquidCrystal.h> 
+LiquidCrystal lcd(2,3,4,5,6,7);
+int sensor_pin=A0; 
+int output_value; 
+int limit=30; 
+int digval=8;
+void setup(){
+pinMode(digval,OUTPUT);
+Serial.beigin(9600);
+Serial.println("Reading from theSensor"); 
+delay(500);
+lcd.begin(16,2); 
+lcd.setCursor(0,0);
+lcd.print("Moisture :");
+} 
+void loop()
+{
+output_value=analogRead(sensor_pin);
+Serial.println(output_value); 
+intmoisture=(1000-output_value)/10;
+lcd.setCursor(0,1);
+lcd.print("Status :");
+lcd.setCursor(10, 0);
+lcd.print(moisture);
+lcd.setCursor(12, 0);
+lcd.print("%");
+lcd.setCursor(15, 0); 
+delay(1000);
+if(moisture<50){
+digitalWrite(digval,HIGH);
+lcd.setCursor(10, 1);
+lcd.print("ON ");
+delay(1000);
+}
+else if((moisture>80)){
+digitalWrite(digval,LOW)
+; lcd.setCursor(10, 1);
+lcd.print("OFF ");
+delay(1000);
+}
+}
